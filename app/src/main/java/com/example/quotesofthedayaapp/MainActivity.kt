@@ -22,6 +22,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,9 +57,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(){
     val quotes = getQuotes()
+    var quote by remember {
+        mutableStateOf(quotes.random())
+    }
     Box(modifier = Modifier.fillMaxSize()){
         Column(
             modifier = Modifier
+                .scrollable(
+                    rememberScrollState(),
+                    orientation = Orientation.Vertical,
+                    enabled = true
+                )
                 .align(Alignment.Center)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -70,7 +82,9 @@ fun MainScreen(){
             QuoteCard(quote=quotes[0])
 
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          quote = quotes.random()
+                },
                 modifier = Modifier
                     .padding(top = 50.dp)
                     .clip(RoundedCornerShape(10.dp))
@@ -89,7 +103,7 @@ fun MainScreen(){
 }
 
 fun getQuotes(): List<Quote> = listOf(
-    Quote(quote = "Some people see innovation as change., but we have never really seen it like that. It’s making things better", author = "Tim Cook"),
+    Quote(quote = "Some people see innovation as change, but we have never really seen it like that. It’s making things better", author = "Tim Cook"),
     Quote(quote = "Change will not come if we wait for some other person, or if we wait for some other time. We are the ones we've been waiting for. We are the change that we seek.", author = "Barack Obama"),
     Quote(quote = "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", author = "Albert Einstein"),
     Quote(quote = "You have to understand, most people are not ready to be unplugged...", author = "Captain Morpheus"),
@@ -106,7 +120,6 @@ fun QuoteCard(quote: Quote) {
         ) {
             Column(
                 modifier = Modifier
-                    .scrollable(rememberScrollState(), orientation = Orientation.Vertical,enabled = true)
                     .fillMaxWidth()
                     .padding(start = 25.dp, end = 25.dp, top = 30.dp, bottom = 30.dp)
             ) {
@@ -116,7 +129,6 @@ fun QuoteCard(quote: Quote) {
                     fontWeight = FontWeight.Bold,
                     color = Black,
                     lineHeight = 50.sp,
-                    maxLines = 4,
                     modifier = Modifier.padding(bottom = 60.dp)
                 )
                 Text(
