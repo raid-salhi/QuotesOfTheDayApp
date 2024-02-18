@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
@@ -60,16 +61,15 @@ fun MainScreen(){
     var quote by remember {
         mutableStateOf(quotes.random())
     }
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
         Column(
             modifier = Modifier
-                .scrollable(
-                    rememberScrollState(),
-                    orientation = Orientation.Vertical,
-                    enabled = true
-                )
-                .align(Alignment.Center)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState(), enabled = true)
+                .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -79,22 +79,23 @@ fun MainScreen(){
                 color = Black,
                 modifier = Modifier.padding(bottom = 50.dp)
             )
-            QuoteCard(quote=quotes[0])
+            QuoteCard(quote=quote)
 
             IconButton(
                 onClick = {
                           quote = quotes.random()
                 },
                 modifier = Modifier
-                    .padding(top = 50.dp)
+                    .padding(top = 40.dp, bottom = 20.dp)
+                    .size(60.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(CardColor)
+
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "refresh",
-                    modifier= Modifier
-                        .size(26.dp),
+                    modifier= Modifier,
                     tint = Black
                 )
             }
