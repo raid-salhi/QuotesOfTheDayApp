@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,44 +62,38 @@ fun MainScreen(){
     var quote by remember {
         mutableStateOf(quotes.random())
     }
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-    ){
-        Column(
+            .verticalScroll(rememberScrollState(), enabled = true),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "Quote of the day",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold,
+            color = Black,
+            modifier = Modifier.padding(top = 20.dp,bottom = 50.dp)
+        )
+        QuoteCard(quote=quote)
+
+        IconButton(
+            onClick = {
+                quote = quotes.random()
+            },
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState(), enabled = true)
-                .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(top = 40.dp, bottom = 20.dp)
+                .size(60.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(CardColor)
+
         ) {
-            Text(
-                text = "Quote of the day",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = Black,
-                modifier = Modifier.padding(bottom = 50.dp)
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = "refresh",
+                modifier= Modifier,
+                tint = Black
             )
-            QuoteCard(quote=quote)
-
-            IconButton(
-                onClick = {
-                          quote = quotes.random()
-                },
-                modifier = Modifier
-                    .padding(top = 40.dp, bottom = 20.dp)
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(CardColor)
-
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "refresh",
-                    modifier= Modifier,
-                    tint = Black
-                )
-            }
         }
     }
 }
