@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             QuotesOfTheDayaAppTheme {
-                // A surface container using the 'background' color from the theme
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Background
@@ -75,6 +75,7 @@ fun MainScreen(){
             color = Black,
             modifier = Modifier.padding(top = 20.dp,bottom = 50.dp)
         )
+
         QuoteCard(quote=quote)
 
         IconButton(
@@ -86,7 +87,6 @@ fun MainScreen(){
                 .size(60.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(CardColor)
-
         ) {
             Icon(
                 imageVector = Icons.Default.Refresh,
@@ -108,32 +108,30 @@ fun getQuotes(): List<Quote> = listOf(
 
 @Composable
 fun QuoteCard(quote: Quote) {
-    Column {
-        Surface(
-            color = CardColor,
-            shape = RoundedCornerShape(20.dp),
-            modifier = Modifier.padding(start = 25.dp, end = 25.dp)
+    Surface(
+        color = CardColor,
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier.padding(start = 25.dp, end = 25.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 25.dp, end = 25.dp, top = 30.dp, bottom = 30.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 25.dp, end = 25.dp, top = 30.dp, bottom = 30.dp)
-            ) {
-                Text(
-                    text = quote.quote,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Black,
-                    lineHeight = 50.sp,
-                    modifier = Modifier.padding(bottom = 60.dp)
-                )
-                Text(
-                    text = quote.author,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Black.copy(0.5f),
-                )
-            }
+            Text(
+                text = quote.quote,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                color = Black,
+                lineHeight = 50.sp,
+                modifier = Modifier.padding(bottom = 60.dp)
+            )
+            Text(
+                text = quote.author,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Black.copy(0.5f),
+            )
         }
     }
 }
